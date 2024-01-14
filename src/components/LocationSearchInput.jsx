@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
+import { getLatLng } from "use-places-autocomplete";
 import PlacesAutocomplete, {
   geocodeByAddress,
 } from "react-places-autocomplete";
 
-function LocationSearchInput({ setLatLng }) {
+function LocationSearchInput({ setLatLng, setLocationAddress }) {
   const [address, setAddress] = useState("");
-  // useEffect(() => {
-  //   console.log("address", address);
-  // });
-  const handleSelect = (selectedAddress) => {
-    geocodeByAddress(selectedAddress)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => setLatLng(latLng))
-      .catch((error) => console.error("Error", error));
+  const handleSelect = async (selectedAddress) => {
+    try {
+      const results = await geocodeByAddress(selectedAddress);
+      const latLng = await getLatLng(results[0]);
+      setLatLng(latLng);
+      setLocationAddress(selectedAddress);
+    } catch (error) {
+      console.error("Error", error);
+    }
   };
   const handleChange = (newAddress) => {
     setAddress(newAddress);

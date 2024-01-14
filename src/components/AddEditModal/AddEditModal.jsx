@@ -13,15 +13,12 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import Autocomplete from "@mui/lab/Autocomplete";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocationSearchInput from "../LocationSearchInput";
-import { LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 
 const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const firestore = getFirestore();
-  // const [location, setLocation] = useState("");
-  const [latLng, setLatLng] = useState("");
+  const [locationAddress, setLocationAddress] = useState("");
+  const [latLng, setLatLng] = useState({});
   const [shopData, setShopData] = useState({
     name: "",
     code: "",
@@ -57,31 +54,29 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
       longitude: "",
     });
     setIsEditMode(false);
-    // setLocation(null);
   };
-  useEffect(() => {
-    // console.log("shopData", shopData);
-  });
+  // useEffect(() => {
+  // console.log("shopData", shopData);
+  // });
   const addShop = async (shopData) => {
-    shopData = { ...shopData, longitude: latLng.lng, latitude: latLng.lat };
-    console.log("shopData", shopData);
-
+    shopData = {
+      ...shopData,
+      longitude: latLng.lng,
+      latitude: latLng.lat,
+      location: locationAddress,
+    };
     const shopsRef = collection(firestore, "shops");
     await addDoc(shopsRef, shopData);
   };
   const updateShop = async (shopData) => {
-    shopData = { ...shopData, longitude: latLng.lng, latitude: latLng.lat };
+    shopData = {
+      ...shopData,
+      longitude: latLng.lng,
+      latitude: latLng.lat,
+      location: locationAddress,
+    };
     const shopDocRef = doc(firestore, "shops", editShopData.id);
     await setDoc(shopDocRef, shopData);
-  };
-  const handleLocationChange = (location) => {
-    setLocation(location);
-    setShopData({
-      ...shopData,
-      location: location.address, // Set the location address
-      latitude: location.latitude,
-      longitude: location.longitude,
-    });
   };
   const handleChange = (event) => {
     setShopData({
@@ -119,7 +114,10 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
             onSubmit={handleSubmit}
             sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
           >
-            <LocationSearchInput setLatLng={setLatLng} />
+            <LocationSearchInput
+              setLocationAddress={setLocationAddress}
+              setLatLng={setLatLng}
+            />
             <TextField
               required
               margin="dense"

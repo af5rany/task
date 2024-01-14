@@ -52,16 +52,25 @@ function ShopCard({ shop, onEdit }) {
       <Card>
         <CardContent>
           <Box
-            sx={{ p: 2, display: "flex", flexDirection: "column", gap: "10px" }}
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              height: "9rem",
+            }}
           >
             <Typography variant="h6" component="div">
-              ShopName: {shop.name}
+              Shop Name: {shop.name}
             </Typography>
             <Typography color="textSecondary">
               Shop Code: {shop.code}
             </Typography>
             <Typography color="textSecondary">
               Phone Number: {shop.phoneNumber}
+            </Typography>
+            <Typography color="textSecondary">
+              Location: {shop.location}
             </Typography>
             <Typography color="textSecondary">
               {/* Phone Number: {shop.lang} */}
