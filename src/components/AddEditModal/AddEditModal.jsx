@@ -116,14 +116,14 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
             sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
           >
             {/* <LocationSearchInput onLocationSelect={handleLocationChange} /> */}
-            <LoadScript googleMapsApiKey="AIzaSyAAkhpiyn0ADrOC0jqxY0nZVDF-6Sdi8X0">
+            {/* <LoadScript googleMapsApiKey="AIzaSyAAkhpiyn0ADrOC0jqxY0nZVDF-6Sdi8X0">
               <StandaloneSearchBox
                 onLoad={(ref) => (inputRef.current = ref)}
                 onPlacesChanged={handlePlaceChanged}
               >
                 <input type="text" className="form-controll"></input>
               </StandaloneSearchBox>
-            </LoadScript>
+            </LoadScript> */}
             <TextField
               required
               margin="dense"

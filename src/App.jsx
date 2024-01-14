@@ -1,12 +1,10 @@
-import { useState } from "react";
-import Shops from "./components/Shops/Shops";
+import React from "react";
+import Home from "./pages/Home";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <Shops></Shops>
+      <Home />
     </>
   );
 }

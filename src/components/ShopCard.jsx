@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import { deleteDoc, doc } from "firebase/firestore";
 import { firestore } from "../firebase";
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+const useStyles = makeStyles({
+  root: {
+    transition: "transform 0.3s ease-in-out",
+    "&:hover": {
+      transform: "scale(1.2)",
+    },
+  },
+});
+
 function ShopCard({ shop, onEdit }) {
   const [openDelete, setOpenDelete] = useState(false);
+  const classes = useStyles();
 
   const handleClickOpen = () => {
     setOpenDelete(true);
@@ -24,6 +34,7 @@ function ShopCard({ shop, onEdit }) {
     deleteDoc(shopRef);
     // handleClose();
   };
+
   return (
     <Box>
       <Dialog open={openDelete} onClose={handleClose}>
@@ -70,7 +81,7 @@ function ShopCard({ shop, onEdit }) {
             Edit Shop
           </Button>
           <DeleteIcon
-            // onClick={() => handleDeleteShop(shop.id)}
+            className={classes.root}
             onClick={handleClickOpen}
             color="error"
           />

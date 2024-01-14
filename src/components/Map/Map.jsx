@@ -23,7 +23,7 @@ const Map = ({ shops }) => {
     if (isLoaded && map && shops) {
       // Clear existing markers
       markers.forEach((marker) => marker.setMap(null));
-      console.log("Shop Data:", shops);
+      // console.log("Shop Data:", shops);
       // Create new markers
       const newMarkers = shops.map((shop) => {
         // Convert latitude and longitude to numbers

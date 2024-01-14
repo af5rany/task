@@ -6,32 +6,19 @@ import { collection, onSnapshot } from "firebase/firestore";
 import AddEditModal from "../AddEditModal/AddEditModal";
 import ShopCard from "../ShopCard";
 
-const Shops = () => {
-  const [shops, setShops] = useState([]);
+const Shops = ({ shops }) => {
   const [openModal, setOpenModal] = useState(false);
   const [editShopData, setEditShopData] = useState(null);
-
-  useEffect(() => {
-    const shopsRef = collection(firestore, "shops");
-    const unsubscribe = onSnapshot(shopsRef, (snapshot) => {
-      const updatedShops = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setShops(updatedShops);
-    });
-    return () => unsubscribe();
-  }, []);
 
   const editShop = (editedShop) => {
     setEditShopData(editedShop);
     setOpenModal(true);
   };
-
   const addShop = () => {
     setEditShopData();
     setOpenModal(true);
   };
+
   return (
     <Box>
       <AddEditModal
@@ -39,15 +26,8 @@ const Shops = () => {
         openModal={openModal}
         editShopData={editShopData}
       />
-      <Box mb={"1rem"} width={"100%"}>
-        <Map shops={shops} />
-      </Box>
       <Grid container spacing={2}>
-        <Button
-          // variant="contained"
-          style={{ height: "3rem", width: "100%" }}
-          onClick={addShop}
-        >
+        <Button fullWidth style={{ height: "3rem" }} onClick={addShop}>
           Add Shop
         </Button>
         {shops.map((shop) => (
