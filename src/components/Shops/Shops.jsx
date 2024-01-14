@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Grid, Box, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Grid, Box, Button, Skeleton } from "@mui/material";
 import AddEditModal from "../AddEditModal/AddEditModal";
 import ShopCard from "../ShopCard/ShopCard";
 
@@ -27,11 +27,21 @@ const Shops = ({ shops }) => {
         <Button fullWidth style={{ height: "3rem" }} onClick={addShop}>
           Add Shop
         </Button>
-        {shops.map((shop) => (
-          <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
-            <ShopCard shop={shop} onEdit={editShop}></ShopCard>
-          </Grid>
-        ))}
+        {shops && shops.length > 0 ? (
+          // Render shop cards when data is loaded
+          shops.map((shop) => (
+            <Grid item key={shop.id} xs={12} sm={6} md={4} lg={3}>
+              <ShopCard shop={shop} onEdit={editShop}></ShopCard>
+            </Grid>
+          ))
+        ) : (
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            height={300}
+            width="100%"
+          />
+        )}
       </Grid>
     </Box>
   );

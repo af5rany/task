@@ -25,6 +25,19 @@ function LocationSearchInput({ setLatLng, setLocationAddress }) {
       value={address}
       onChange={handleChange}
       onSelect={handleSelect}
+      styles={{
+        textInputContainer: {
+          backgroundColor: "grey",
+        },
+        textInput: {
+          height: 38,
+          color: "#5d5d5d",
+          fontSize: 16,
+        },
+        predefinedPlacesDescription: {
+          color: "#1faadb",
+        },
+      }}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>

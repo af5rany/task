@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 
+const libraries = ["marker", "places"];
 const Map = ({ shops }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAAkhpiyn0ADrOC0jqxY0nZVDF-6Sdi8X0",
-    libraries: ["marker", "places"],
+    libraries,
   });
 
   const [map, setMap] = React.useState(null);
+  const [markers, setMarkers] = React.useState([]);
 
   const onLoad = useCallback((map) => {
     setMap(map);
@@ -17,8 +19,6 @@ const Map = ({ shops }) => {
   const onUnmount = useCallback(() => {
     setMap(null);
   }, []);
-
-  const [markers, setMarkers] = React.useState([]);
 
   useEffect(() => {
     if (isLoaded && map && shops) {
@@ -49,10 +49,12 @@ const Map = ({ shops }) => {
         zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
-      ></GoogleMap>
+      />
     </Box>
   ) : (
-    <></>
+    <>
+      <Skeleton height={"360px"} animation="wave" />
+    </>
   );
 };
 

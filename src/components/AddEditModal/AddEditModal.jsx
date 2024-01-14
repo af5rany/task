@@ -13,7 +13,7 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import LocationSearchInput from "../LocationSearchInput";
+import LocationSearchInput from "./LocationSearchInput";
 
 const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const firestore = getFirestore();
