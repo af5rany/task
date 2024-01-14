@@ -53,7 +53,7 @@ const Map = ({ shops }) => {
     </Box>
   ) : (
     <>
-      <Skeleton height={"360px"} animation="wave" />
+      <Skeleton height={"360px"} animation="wave" width={"100%"} />
     </>
   );
 };

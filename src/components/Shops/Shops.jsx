@@ -36,8 +36,8 @@ const Shops = ({ shops }) => {
           ))
         ) : (
           <Skeleton
+            variant="rounded"
             animation="wave"
-            variant="rectangular"
             height={300}
             width="100%"
           />

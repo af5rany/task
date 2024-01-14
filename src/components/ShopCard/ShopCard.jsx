@@ -30,7 +30,6 @@ function ShopCard({ shop, onEdit }) {
   const handleDeleteShop = (shopId) => {
     const shopRef = doc(firestore, "shops", shopId);
     deleteDoc(shopRef);
-    // handleClose();
   };
 
   return (
@@ -67,13 +66,10 @@ function ShopCard({ shop, onEdit }) {
               Shop Code: {shop.code}
             </Typography>
             <Typography color="textSecondary">
-              Phone Number: {shop.phoneNumber}
-            </Typography>
-            <Typography color="textSecondary">
               Location: {shop.location}
             </Typography>
             <Typography color="textSecondary">
-              {/* Phone Number: {shop.lang} */}
+              Phone Number: {shop.phoneNumber}
             </Typography>
           </Box>
         </CardContent>

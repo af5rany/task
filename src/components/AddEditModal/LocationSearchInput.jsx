@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { getLatLng } from "use-places-autocomplete";
+import React, { useState } from "react";
+import { TextField, Paper, List, ListItem, ListItemText } from "@mui/material";
 import PlacesAutocomplete, {
   geocodeByAddress,
+  getLatLng,
 } from "react-places-autocomplete";
 
 function LocationSearchInput({ setLatLng, setLocationAddress }) {
   const [address, setAddress] = useState("");
+
   const handleSelect = async (selectedAddress) => {
     try {
       const results = await geocodeByAddress(selectedAddress);
@@ -25,52 +27,48 @@ function LocationSearchInput({ setLatLng, setLocationAddress }) {
       value={address}
       onChange={handleChange}
       onSelect={handleSelect}
-      styles={{
-        textInputContainer: {
-          backgroundColor: "grey",
-        },
-        textInput: {
-          height: 38,
-          color: "#5d5d5d",
-          fontSize: 16,
-        },
-        predefinedPlacesDescription: {
-          color: "#1faadb",
-        },
-      }}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
-          <input
+          <TextField
             {...getInputProps({
-              placeholder: "Search Places ...",
+              label: "Search Places ...",
+              variant: "outlined",
+              fullWidth: true,
+              margin: "normal",
               className: "location-search-input",
-              // value: address, // Set the value prop with the state variable
             })}
           />
-          <div className="autocomplete-dropdown-container">
-            {loading && <div>Loading...</div>}
-            {suggestions.map((suggestion) => {
-              const className = suggestion.active
-                ? "suggestion-item--active"
-                : "suggestion-item";
-              // inline style for demonstration purpose
-              const style = suggestion.active
-                ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                : { backgroundColor: "#ffffff", cursor: "pointer" };
-              return (
-                <div
-                  key={suggestion.placeId}
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
-                >
-                  <span>{suggestion.description}</span>
-                </div>
-              );
-            })}
-          </div>
+          <Paper
+            style={{
+              maxHeight: "200px", // Adjust the max height as needed
+              overflowY: "auto", // Enable vertical scrolling
+              zIndex: 1000, // Set your desired zIndex value
+            }}
+          >
+            <List>
+              {loading && <ListItem>Loading...</ListItem>}
+              {suggestions.map((suggestion) => {
+                const className = suggestion.active
+                  ? "suggestion-item--active"
+                  : "suggestion-item";
+                const style = suggestion.active
+                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                  : { backgroundColor: "#ffffff", cursor: "pointer" };
+                return (
+                  <ListItem
+                    key={suggestion.placeId}
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <ListItemText primary={suggestion.description} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Paper>
         </div>
       )}
     </PlacesAutocomplete>
