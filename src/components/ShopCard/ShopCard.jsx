@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { deleteDoc, doc } from "firebase/firestore";
-import { firestore } from "../firebase";
+import { firestore } from "../../firebase";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 const useStyles = makeStyles({

@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Grid, Box, Button } from "@mui/material";
-import Map from "../Map/Map";
-import { firestore } from "../../firebase";
-import { collection, onSnapshot } from "firebase/firestore";
 import AddEditModal from "../AddEditModal/AddEditModal";
-import ShopCard from "../ShopCard";
+import ShopCard from "../ShopCard/ShopCard";
 
 const Shops = ({ shops }) => {
   const [openModal, setOpenModal] = useState(false);

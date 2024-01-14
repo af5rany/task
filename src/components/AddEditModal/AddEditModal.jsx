@@ -20,7 +20,6 @@ import { LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 
 const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const firestore = getFirestore();
-  // const [value, setValue] = useState(null);
   const [location, setLocation] = useState("");
   const [shopData, setShopData] = useState({
     name: "",
@@ -29,6 +28,7 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
     location: "",
   });
   const [isEditMode, setIsEditMode] = useState(false);
+
   useEffect(() => {
     if (editShopData) {
       // If editShopData is provided, set the shopData state for editing
@@ -41,8 +41,6 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
         code: "",
         phoneNumber: "",
         location: "",
-        latitude: "", // Assuming you have latitude and longitude fields
-        longitude: "",
       });
       setIsEditMode(false);
     }
@@ -60,7 +58,14 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
     setIsEditMode(false);
     setLocation(null);
   };
-
+  const addShop = async (shopData) => {
+    const shopsRef = collection(firestore, "shops");
+    await addDoc(shopsRef, shopData);
+  };
+  const updateShop = async (shopData) => {
+    const shopDocRef = doc(firestore, "shops", editShopData.id);
+    await setDoc(shopDocRef, shopData);
+  };
   const handleLocationChange = (location) => {
     setLocation(location);
     setShopData({
@@ -70,7 +75,6 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
       longitude: location.longitude,
     });
   };
-
   const handleChange = (event) => {
     setShopData({
       ...shopData,
@@ -91,15 +95,7 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
     handleClose();
   };
 
-  const addShop = async (shopData) => {
-    const shopsRef = collection(firestore, "shops");
-    await addDoc(shopsRef, shopData);
-  };
-  const updateShop = async (shopData) => {
-    const shopDocRef = doc(firestore, "shops", editShopData.id); // Assuming you have an "id" field in your shopData
-    await setDoc(shopDocRef, shopData);
-  };
-  const handlePlaceChanged = () => {};
+  // const handlePlaceChanged = () => {};
   return (
     <Box>
       <Dialog
@@ -148,6 +144,24 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
               label="Phone Number"
               name="phoneNumber"
               value={shopData.phoneNumber}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              required
+              margin="dense"
+              label="latitude"
+              name="latitude"
+              value={shopData.latitude}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              required
+              margin="dense"
+              label="longitude"
+              name="longitude"
+              value={shopData.longitude}
               onChange={handleChange}
               fullWidth
             />

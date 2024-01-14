@@ -41,11 +41,11 @@ const Map = ({ shops }) => {
   }, [isLoaded, map, shops]);
 
   return isLoaded ? (
-    <Box width={"100%"}>
+    <Box>
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "360px" }}
-        center={{ lat: -3.745, lng: -38.523 }}
-        zoom={10}
+        center={{ lat: 30.036435, lng: 31.265339 }}
+        zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
       ></GoogleMap>
