@@ -20,7 +20,8 @@ import { LoadScript, StandaloneSearchBox } from "@react-google-maps/api";
 
 const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const firestore = getFirestore();
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
+  const [latLng, setLatLng] = useState("");
   const [shopData, setShopData] = useState({
     name: "",
     code: "",
@@ -56,13 +57,20 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
       longitude: "",
     });
     setIsEditMode(false);
-    setLocation(null);
+    // setLocation(null);
   };
+  useEffect(() => {
+    // console.log("shopData", shopData);
+  });
   const addShop = async (shopData) => {
+    shopData = { ...shopData, longitude: latLng.lng, latitude: latLng.lat };
+    console.log("shopData", shopData);
+
     const shopsRef = collection(firestore, "shops");
     await addDoc(shopsRef, shopData);
   };
   const updateShop = async (shopData) => {
+    shopData = { ...shopData, longitude: latLng.lng, latitude: latLng.lat };
     const shopDocRef = doc(firestore, "shops", editShopData.id);
     await setDoc(shopDocRef, shopData);
   };
@@ -83,19 +91,19 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   };
   const handleClose = () => {
     setOpenModal(false);
-    resetForm();
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditMode) {
       updateShop(shopData);
+      handleClose();
     } else {
       addShop(shopData);
+      resetForm();
+      handleClose();
     }
-    handleClose();
   };
 
-  // const handlePlaceChanged = () => {};
   return (
     <Box>
       <Dialog
@@ -111,15 +119,7 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
             onSubmit={handleSubmit}
             sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
           >
-            {/* <LocationSearchInput onLocationSelect={handleLocationChange} /> */}
-            {/* <LoadScript googleMapsApiKey="AIzaSyAAkhpiyn0ADrOC0jqxY0nZVDF-6Sdi8X0">
-              <StandaloneSearchBox
-                onLoad={(ref) => (inputRef.current = ref)}
-                onPlacesChanged={handlePlaceChanged}
-              >
-                <input type="text" className="form-controll"></input>
-              </StandaloneSearchBox>
-            </LoadScript> */}
+            <LocationSearchInput setLatLng={setLatLng} />
             <TextField
               required
               margin="dense"
@@ -144,24 +144,6 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
               label="Phone Number"
               name="phoneNumber"
               value={shopData.phoneNumber}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              required
-              margin="dense"
-              label="latitude"
-              name="latitude"
-              value={shopData.latitude}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              required
-              margin="dense"
-              label="longitude"
-              name="longitude"
-              value={shopData.longitude}
               onChange={handleChange}
               fullWidth
             />

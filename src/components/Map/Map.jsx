@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 const Map = ({ shops }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAAkhpiyn0ADrOC0jqxY0nZVDF-6Sdi8X0",
+    libraries: ["marker", "places"],
   });
 
   const [map, setMap] = React.useState(null);
