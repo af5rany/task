@@ -14,6 +14,7 @@ function LocationSearchInput({ setLatLng, setLocationAddress }) {
       const latLng = await getLatLng(results[0]);
       setLatLng(latLng);
       setLocationAddress(selectedAddress);
+      setAddress(selectedAddress);
     } catch (error) {
       console.error("Error", error);
     }

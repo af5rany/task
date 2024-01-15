@@ -14,11 +14,14 @@ import {
   setDoc,
 } from "firebase/firestore";
 import LocationSearchInput from "./LocationSearchInput";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const firestore = getFirestore();
   const [locationAddress, setLocationAddress] = useState("");
   const [latLng, setLatLng] = useState({});
+  // const [isValid, setIsValid] = useState(false);
   const [shopData, setShopData] = useState({
     name: "",
     code: "",
@@ -54,10 +57,18 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
       longitude: "",
     });
     setIsEditMode(false);
+    // setIsValid(false);
   };
-  // useEffect(() => {
-  // console.log("shopData", shopData);
-  // });
+  // const validateForm = () => {
+  //   // Implement your validation logic here
+  //   // For simplicity, let's consider the form valid if all required fields are filled
+  //   const isValidForm =
+  //     shopData.name.trim() !== "" &&
+  //     shopData.code.trim() !== "" &&
+  //     shopData.phoneNumber.trim() !== "";
+  // setIsValid(isValidForm);
+  //   return isValidForm;
+  // };
   const addShop = async (shopData) => {
     shopData = {
       ...shopData,
@@ -87,6 +98,7 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
   const handleClose = () => {
     setOpenModal(false);
   };
+  // const isFormValid = validateForm();
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (isEditMode) {
@@ -109,6 +121,15 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
         <DialogTitle id="form-dialog-title">
           {isEditMode ? "Edit Shop" : "Add Shop"}
         </DialogTitle>
+        <IconButton
+          edge="end"
+          color="inherit"
+          onClick={handleClose}
+          aria-label="close"
+          sx={{ position: "absolute", right: 20, top: 8 }}
+        >
+          <CloseIcon />
+        </IconButton>
         <DialogContent>
           <form
             onSubmit={handleSubmit}
@@ -151,14 +172,14 @@ const AddEditModal = ({ setOpenModal, openModal, editShopData }) => {
               type="submit"
               sx={{ marginTop: "16px" }}
               fullWidth
+              disabled={!isFormValid}
             >
               {isEditMode ? "Update" : "Submit"}
             </Button>
           </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
+        {/* <DialogActions>
+        </DialogActions> */}
       </Dialog>
     </Box>
   );
